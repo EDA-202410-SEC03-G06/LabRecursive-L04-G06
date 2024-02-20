@@ -27,8 +27,10 @@
 import random
 import config as cf
 from DISClib.ADT import list as lt
-# from DISClib.Algorithms.Sorting import mergesort as ms
+from DISClib.Algorithms.Sorting import mergesort as ms
 from DISClib.Algorithms.Sorting import quicksort as qs
+from DISClib.Algorithms.Sorting import quicksort as qs
+
 assert cf
 
 """
@@ -312,10 +314,20 @@ def recursiveSearchBookByISBN(books, bookisbn, low, high):
         int: indice del libro en la lista, -1 si no lo encuentra
     """
     # TODO implementar recursivamente binary search (parte 2)
-    pass
+    if low > high:
+        return -1
+    
+    mitad = (low+high)//2
+    if books[mitad]==bookisbn:
+        return mitad
+    elif books[mitad]> bookisbn:
+        return recursiveSearchBookByISBN(books, bookisbn, low, mitad-1)
+    else:
+        return recursiveSearchBookByISBN(books, bookisbn, mitad+1, high)
+    
 
 
-def iterativeSearchBookByISBN(catalog, bookid):
+def iterativeSearchBookByISBN(catalog, bookisbn):
     """iterativeSearchBookByISBN ejecuta iterativamente la busqueda binaria el
     ISBN del libro en la lista, si no lo encuentra retorna -1, utiliza la llave
     "isbn13" para la comparacion
@@ -329,7 +341,20 @@ def iterativeSearchBookByISBN(catalog, bookid):
         lista de libros
     """
     # TODO implementar iterativamente del binary search (parte 2)
-    pass
+    lista= catalog["books"]
+    low=0
+    high= (lt.size(lista)-1) 
+    
+    while low <= high:
+        mitad= (low+high)//2
+        
+        if lt.getElement(lista,mitad)["ISBN"]== bookisbn:
+            return lt.getElement(lista,mitad)
+        elif lt.getElement(lista,mitad)["ISBN"]< bookisbn:
+            low=mitad+1
+        else: 
+            high=mitad-1
+    return -1
 
 
 # funciones para calcular estadisticas
@@ -378,7 +403,13 @@ def iterativeAvgBooksRating(catalog):
         float: promedio de ratings de los libros en la lista
     """
     # TODO implementar iterativamente el calculo del promedio (parte 2)
-    pass
+    promedio= 0
+    contador=0
+    lista=catalog["books"]
+    for x in lt.iterator(lista):
+        promedio+=x["average_rating"]
+    promedio=promedio/(lt.size(lista)-1)
+    return promedio
 
 
 def filterBooksByRating(catalog, low, high):
@@ -432,4 +463,10 @@ def iterativeFilterBooksByRating(catalog, low, high):
         defecto SINGLE_LINKED
     """
     # TODO implementar iterativamente el filtrado de libros (parte 2)
-    pass
+    lista=lt.newList()
+    lista_libros=catalog["books"]
+    for x in lt.iterator(lista_libros):
+        rating=x["average_rating"]
+        if rating>low and rating<high:
+            lt.addLast(lista,x)
+    return lista
