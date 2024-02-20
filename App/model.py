@@ -294,7 +294,7 @@ def searchBookByISBN(catalog, bookisbn):
         lista de libros
     """
     # TODO implementar la mascara de la busqueda recursiva (parte 2)
-    pass
+    return catalog["books"].get(catalog,bookisbn)
 
 
 def recursiveSearchBookByISBN(books, bookisbn, low, high):
