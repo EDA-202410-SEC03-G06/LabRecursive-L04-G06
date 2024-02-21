@@ -30,6 +30,7 @@ import gc
 import controller
 from DISClib.ADT import list as lt
 assert cf
+import threading
 
 """
 La vista se encarga de la interacción con el usuario
@@ -270,4 +271,5 @@ def menu_cycle():
 # main del ejercicio
 if __name__ == "__main__":
     # TODO modificar main para actualizar el límite de recursion de memoria (parte 2)
+    sys.setrecursionlimit(default_limit*1000000)
     menu_cycle()
