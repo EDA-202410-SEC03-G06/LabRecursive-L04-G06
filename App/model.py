@@ -296,7 +296,9 @@ def searchBookByISBN(catalog, bookisbn):
         lista de libros
     """
     # TODO implementar la mascara de la busqueda recursiva (parte 2)
-    return catalog["books"].get(catalog,bookisbn)
+    low=0
+    high= (lt.size(lista)-1) 
+    return recursiveSearchBookByISBN(catalog,bookisbn,low,high)
 
 
 def recursiveSearchBookByISBN(books, bookisbn, low, high):
@@ -450,16 +452,14 @@ def recursiveFilterBooksByRating(books, answer, low, high, idx):
     # TODO implementar recursivamente el filtrado de libros (parte 2)
     lista = books['books']
 
-    
     if idx>=lt.size(lista):
         return answer
     else:
-        book = lt.iterator(lista)
-        x = book[idx]
+        x = lt.iterator(lista[idx])
         
         
         if float(x['average_rating'])>= low and float(x['average_rating'])<=high:
-            lt.addLast(answer,book)
+            lt.addLast(answer,x)
         return recursiveFilterBooksByRating(books,answer, low, high,idx+1)
 
 
